@@ -1,14 +1,16 @@
 package org.skypro.skyshop.basket;
 
+import org.skypro.skyshop.product.DiscountedProduct;
 import org.skypro.skyshop.product.Product;
+import org.skypro.skyshop.product.SimpleProduct;
 
 import java.util.Random;
 
 public class ProductBasket {
 
-    private static Random random = new Random();
-    private static String[] titles = {"морковь", "картошка", "капуста", "огурец", "помидор", "яблоко", "баклажан", "тунец", "авокадо", "колбаса"};
     private final Product[] basket;
+    private static int countOfSpecial = 0;
+
 
     // создает массив, данные хранятся в виде товар+цена
     public ProductBasket() {
@@ -16,11 +18,11 @@ public class ProductBasket {
     }
 
     // добавляет товар в пустую ячейку массива
-    public void addProduct(String title, int price) {
+    public void addProduct(Product product) {
         for (int i = 0; i < basket.length; i++) {
             if (basket[i] == null) {
-                basket[i] = new Product(title, price);
-                System.out.println("добавлен товар \"" + title + "\", цена: " + price + " руб.");
+                basket[i] = product;
+                System.out.println("добавлен товар \"" + product.getTitle() + "\", цена: " + product.getPrice() + " руб.");
                 return;
             } else if (basket[basket.length - 1] != null) {
                 System.out.println("невозможно добавить продукт");
@@ -42,13 +44,14 @@ public class ProductBasket {
 
     // печатает содержимое корзины и общую стоимость, если корзина не пуста
     public void printBasket() {
-        for (int i = 0; i < basket.length; i++) {
-            if (basket[i] != null) {
-                System.out.println(basket[i].getTitle() + ": " + basket[i].getPrice() + " руб.");
+        for (Product basket : basket) {
+            if (basket != null) {
+                System.out.println(basket);
             }
         }
         if (basket[0] != null) {
             System.out.println("итого: " + getBasketPrice() + " руб.");
+            System.out.println("специальных продуктов: " + getCountOfSpecial());
         } else {
             System.out.println("в корзине пусто");
         }
@@ -70,14 +73,17 @@ public class ProductBasket {
         for (int i = 0; i < basket.length; i++) {
             basket[i] = null;
         }
+        countOfSpecial = 0;
         System.out.println("корзина очищена");
     }
 
-    // генерация продуктов и добавление их в массив, оставляет 1 свободную ячейку
-    public void generateProducts() {
-        for (int i = 0; i < basket.length - 1; i++) {
-            basket[i] = new Product(titles[random.nextInt(0, titles.length)], random.nextInt(100, 500));
+    public int getCountOfSpecial() {
+        for (Product basket : basket) {
+            if (basket != null && basket.isSpecial()) {
+                countOfSpecial++;
+            }
         }
+        return countOfSpecial;
     }
 
 

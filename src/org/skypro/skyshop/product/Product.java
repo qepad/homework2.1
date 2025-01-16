@@ -1,20 +1,23 @@
 package org.skypro.skyshop.product;
 
-public class Product {
+public abstract class Product {
 
     private String title;
-    private int price;
+    protected static int countOfSpecial = 1;
 
-    public Product(String title, int price) {
+    public Product(String title) {
         this.title = title;
-        this.price = price;
     }
 
     public String getTitle() {
         return title;
     }
 
-    public int getPrice() {
-        return price;
+    public int getCountOfSpecial() {
+        return countOfSpecial;
     }
+
+    public abstract int getPrice();
+
+    public abstract boolean isSpecial();
 }
