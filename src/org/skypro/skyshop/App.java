@@ -10,10 +10,6 @@ import java.util.Random;
 
 public class App {
 
-    private static final Random random = new Random();
-    private static String[] titles = {"морковь", "картошка", "капуста", "огурец", "помидор", "яблоко", "баклажан", "тунец", "авокадо", "колбаса"};
-
-
     public static void main(String[] args) {
 
         ProductBasket productBasket = new ProductBasket(); // создание корзины
