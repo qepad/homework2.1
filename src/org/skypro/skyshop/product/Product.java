@@ -1,20 +1,20 @@
 package org.skypro.skyshop.product;
 
-public class Product {
+import java.util.Random;
+
+public abstract class Product {
 
     private String title;
-    private int price;
 
-    public Product(String title, int price) {
+    public Product(String title) {
         this.title = title;
-        this.price = price;
     }
 
     public String getTitle() {
         return title;
     }
 
-    public int getPrice() {
-        return price;
-    }
+    public abstract int getPrice();
+
+    public abstract boolean isSpecial();
 }
