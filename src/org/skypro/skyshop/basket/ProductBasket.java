@@ -11,6 +11,10 @@ public class ProductBasket {
     private final Product[] basket;
     private static int countOfSpecial = 0;
 
+    private static final Random random = new Random();
+    private static String[] titles = {"морковь", "картошка", "капуста", "огурец", "помидор", "яблоко", "баклажан", "тунец", "авокадо", "колбаса"};
+
+
 
     // создает массив, данные хранятся в виде товар+цена
     public ProductBasket() {
@@ -84,6 +88,14 @@ public class ProductBasket {
             }
         }
         return countOfSpecial;
+    }
+
+    public String generateTitle() {
+        return titles[random.nextInt(0, titles.length)];
+    }
+
+    public int generatePrice() {
+        return random.nextInt(100, 500);
     }
 
 

@@ -10,7 +10,7 @@ import java.util.Random;
 
 public class App {
 
-    private static Random random = new Random();
+    private static final Random random = new Random();
     private static String[] titles = {"морковь", "картошка", "капуста", "огурец", "помидор", "яблоко", "баклажан", "тунец", "авокадо", "колбаса"};
 
 
@@ -18,12 +18,12 @@ public class App {
 
         ProductBasket productBasket = new ProductBasket(); // создание корзины
 
-        Product product1 = new SimpleProduct(titles[random.nextInt(0, titles.length)], random.nextInt(100, 500));
-        Product product2 = new DiscountedProduct(titles[random.nextInt(0, titles.length)], random.nextInt(100, 500), 5);
-        Product product3 = new FixPriceProduct(titles[random.nextInt(0, titles.length)]);
-        Product product4 = new FixPriceProduct(titles[random.nextInt(0, titles.length)]);
-        Product product5 = new SimpleProduct(titles[random.nextInt(0, titles.length)], random.nextInt(100, 500));
-        Product product6 = new SimpleProduct(titles[random.nextInt(0, titles.length)], random.nextInt(100, 500));
+        Product product1 = new SimpleProduct(productBasket.generateTitle(), productBasket.generatePrice());
+        Product product2 = new DiscountedProduct(productBasket.generateTitle(), productBasket.generatePrice(), 5);
+        Product product3 = new FixPriceProduct(productBasket.generateTitle());
+        Product product4 = new FixPriceProduct(productBasket.generateTitle());
+        Product product5 = new SimpleProduct(productBasket.generateTitle(), productBasket.generatePrice());
+        Product product6 = new SimpleProduct(productBasket.generateTitle(), productBasket.generatePrice());
 
         System.out.println("добавление товаров в корзину");
         productBasket.addProduct(product1);

@@ -1,5 +1,7 @@
 package org.skypro.skyshop.product;
 
+import java.util.Random;
+
 public abstract class Product {
 
     private String title;
