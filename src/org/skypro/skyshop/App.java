@@ -1,11 +1,14 @@
 package org.skypro.skyshop;
 
+import org.skypro.skyshop.articles.Article;
 import org.skypro.skyshop.basket.ProductBasket;
 import org.skypro.skyshop.product.DiscountedProduct;
 import org.skypro.skyshop.product.FixPriceProduct;
 import org.skypro.skyshop.product.Product;
 import org.skypro.skyshop.product.SimpleProduct;
+import org.skypro.skyshop.search.SearchEngine;
 
+import java.util.Arrays;
 import java.util.Random;
 
 public class App {
@@ -49,6 +52,42 @@ public class App {
 
         // получение стоимости пустой корзины
         System.out.println("стоимость товаров в корзине - " + productBasket.getBasketPrice() + " руб.");
+        System.out.println();
+
+
+/*
+        search engine
+*/
+
+        System.out.println("search engine");
+        System.out.println();
+
+        SearchEngine searchEngine = new SearchEngine(15);
+        searchEngine.add(product1);
+        searchEngine.add(product2);
+        searchEngine.add(product3);
+        searchEngine.add(product4);
+        searchEngine.add(product5);
+        searchEngine.add(product6);
+        System.out.println();
+
+        Article article1 = new Article("статья о картошке", "картошка лежит под землей, но не очень глубоко");
+        Article article2 = new Article("статья о яблоках", "яблоки можно подавать с белым вином или в составе фруктового салата");
+        Article article3 = new Article("статья о помидорах", "помидоры растут в огородах, из них делают сок, соус или салат");
+
+        searchEngine.add(article1);
+        searchEngine.add(article2);
+        searchEngine.add(article3);
+        System.out.println();
+
+        String search1 = "яблоко";
+        String search2 = "картошка";
+        String search3 = "помидор";
+
+        System.out.println("поиск по слову \"" + search1 + "\": " + Arrays.toString(searchEngine.search(search1)));
+        System.out.println("поиск по слову \"" + search2 + "\": " + Arrays.toString(searchEngine.search(search2)));
+        System.out.println("поиск по слову \"" + search3 + "\": " + Arrays.toString(searchEngine.search(search3)));
+
 
 
     }
