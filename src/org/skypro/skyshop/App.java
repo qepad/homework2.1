@@ -11,7 +11,6 @@ import org.skypro.skyshop.search.SearchEngine;
 import org.skypro.skyshop.search.Searchable;
 
 import java.util.Arrays;
-import java.util.Random;
 
 public class App {
 
