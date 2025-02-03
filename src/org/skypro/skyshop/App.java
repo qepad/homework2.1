@@ -6,7 +6,9 @@ import org.skypro.skyshop.product.DiscountedProduct;
 import org.skypro.skyshop.product.FixPriceProduct;
 import org.skypro.skyshop.product.Product;
 import org.skypro.skyshop.product.SimpleProduct;
+import org.skypro.skyshop.search.BestResultNotFound;
 import org.skypro.skyshop.search.SearchEngine;
+import org.skypro.skyshop.search.Searchable;
 
 import java.util.Arrays;
 import java.util.Random;
@@ -88,6 +90,41 @@ public class App {
         System.out.println("поиск по слову \"" + search2 + "\": " + Arrays.toString(searchEngine.search(search2)));
         System.out.println("поиск по слову \"" + search3 + "\": " + Arrays.toString(searchEngine.search(search3)));
 
+
+/*
+        exceptions
+*/
+        System.out.println();
+        System.out.println("exceptions");
+        System.out.println();
+
+        try {
+            Product productExc1 = new DiscountedProduct("фрукт", 1000, 10);
+            Product productExc2 = new SimpleProduct("", 1000);
+            Product productExc3 = new SimpleProduct("овощ", 10);
+        } catch (IllegalArgumentException e) {
+            System.out.println(e);
+        }
+
+        System.out.println();
+
+        // объект существует
+        String search4 = "картошка";
+        try {
+            System.out.println("поиск по слову \"" + search4 + "\": " + searchEngine.searchBest(search4));
+        } catch (BestResultNotFound e) {
+            System.out.println(e);
+        }
+
+        System.out.println();
+
+        // объекта не существует
+        String search5 = "пиво";
+        try {
+            System.out.println("поиск по слову \"" + search4 + "\": " + searchEngine.searchBest(search5));
+        } catch (BestResultNotFound e) {
+            System.out.println(e);
+        }
 
 
     }

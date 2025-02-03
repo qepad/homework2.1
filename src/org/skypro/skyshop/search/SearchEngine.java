@@ -10,7 +10,7 @@ public class SearchEngine {
         this.searchables = new Searchable[size];
     }
 
-    public Searchable[] search (String query) {
+    public Searchable[] search(String query) {
         Searchable[] result = new Searchable[MAX_RESULTS];
         for (int i = 0; i < searchables.length; i++) {
             if (searchables[i] != null && searchables[i].getSearchTerm().contains(query)) {
@@ -34,6 +34,52 @@ public class SearchEngine {
                 return;
             }
         }
+    }
+
+    public Searchable searchBest(String search) throws BestResultNotFound {
+        if (search == null || search.isBlank() || searchables == null) {
+            throw new BestResultNotFound("поисковый запрос или список объектов пусты");
+        }
+
+        Searchable result = null;
+        int maxCount = -1;
+        boolean found = false;
+
+        for (Searchable searchable : searchables) {
+            if (searchable == null) {
+                continue;
+            }
+
+            String str = searchable.getSearchTerm();
+            if (str == null) {
+                continue;
+            }
+
+            String substr = search;
+            int count = 0;
+            int index = 0;
+
+            while ((index = str.indexOf(substr, index)) != -1) {
+                count++;
+                index += substr.length();
+            }
+
+            if (count > 0) {
+                found = true;
+            }
+
+            if (count > maxCount) {
+                maxCount = count;
+                result = searchable;
+            }
+        }
+
+        if (!found) {
+            throw new BestResultNotFound("для слова \"" + search + "\" не найдено подходящего объекта");
+        }
+
+        return result;
+
     }
 
 }
