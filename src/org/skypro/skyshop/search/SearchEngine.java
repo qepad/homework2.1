@@ -1,43 +1,37 @@
 package org.skypro.skyshop.search;
 
+import org.skypro.skyshop.product.Product;
+
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+
 public class SearchEngine {
 
-    private final Searchable[] searchables;
-    private final int MAX_RESULTS = 5; // макс.количество результатов поиска
+    private final List<Searchable> searchables;
 
 
     public SearchEngine(int size) {
-        this.searchables = new Searchable[size];
+        this.searchables = new LinkedList<>();
     }
 
-    public Searchable[] search(String query) {
-        Searchable[] result = new Searchable[MAX_RESULTS];
-        for (int i = 0; i < searchables.length; i++) {
-            if (searchables[i] != null && searchables[i].getSearchTerm().contains(query)) {
-                result[i] = searchables[i];
-            }
-            if (i >= MAX_RESULTS - 1) {
-                break;
+    public List<Searchable> search(String query) {
+        List<Searchable> result = new LinkedList<>();
+        for (Searchable searchable : searchables) {
+            if (searchable.getSearchTerm().contains(query)) {
+                result.add(searchable);
             }
         }
         return result;
     }
 
     public void add(Searchable searchable) {
-        for (int i = 0; i < searchables.length; i++) {
-            if (searchables[i] == null) {
-                searchables[i] = searchable;
-                System.out.println("добавлено: " + searchable);
-                return;
-            } else if (searchables[searchables.length - 1] != null) {
-                System.out.println("error");
-                return;
-            }
-        }
+        searchables.add(searchable);
+        System.out.println("добавлено: " + searchable);
     }
 
     public Searchable searchBest(String search) throws BestResultNotFound {
-        if (search == null || search.isBlank() || searchables == null) {
+        if (search == null || search.isBlank() || searchables.isEmpty()) {
             throw new BestResultNotFound("поисковый запрос или список объектов пусты");
         }
 

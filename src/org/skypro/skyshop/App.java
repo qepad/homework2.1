@@ -11,6 +11,7 @@ import org.skypro.skyshop.search.SearchEngine;
 import org.skypro.skyshop.search.Searchable;
 
 import java.util.Arrays;
+import java.util.List;
 
 public class App {
 
@@ -31,7 +32,7 @@ public class App {
         productBasket.addProduct(product3);
         productBasket.addProduct(product4);
         productBasket.addProduct(product5);
-        productBasket.addProduct(product6); // добавление товара в полную корзину
+        productBasket.addProduct(product6);
         System.out.println();
 
         System.out.println("печать корзины");
@@ -47,6 +48,14 @@ public class App {
         System.out.println("продукт с названием \"" + search + "\" есть в корзине - " + productBasket.checkProduct(search));
         System.out.println();
 
+        productBasket.delete("морковь"); // удаление по названию
+        System.out.println("список удаленных продуктов:");
+        productBasket.printDeleted(); // печать удаленных продуктов
+        System.out.println();
+        System.out.println("корзина после удаления по названию");
+        productBasket.printBasket();
+
+        System.out.println();
         productBasket.cleanBasket(); // очистка корзины
         productBasket.printBasket(); // печать содержимого пустой корзины
         System.out.println();
@@ -85,9 +94,9 @@ public class App {
         String search2 = "картошка";
         String search3 = "помидор";
 
-        System.out.println("поиск по слову \"" + search1 + "\": " + Arrays.toString(searchEngine.search(search1)));
-        System.out.println("поиск по слову \"" + search2 + "\": " + Arrays.toString(searchEngine.search(search2)));
-        System.out.println("поиск по слову \"" + search3 + "\": " + Arrays.toString(searchEngine.search(search3)));
+        System.out.println("поиск по слову \"" + search1 + "\": " + searchEngine.search(search1));
+        System.out.println("поиск по слову \"" + search2 + "\": " + searchEngine.search(search2));
+        System.out.println("поиск по слову \"" + search3 + "\": " + searchEngine.search(search3));
 
 
 /*
