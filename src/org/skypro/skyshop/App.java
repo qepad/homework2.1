@@ -48,10 +48,15 @@ public class App {
         System.out.println("продукт с названием \"" + search + "\" есть в корзине - " + productBasket.checkProduct(search));
         System.out.println();
 
-        productBasket.delete("морковь"); // удаление по названию
-        System.out.println("список удаленных продуктов:");
-        productBasket.printDeleted(); // печать удаленных продуктов
+        List<Product> deleted = productBasket.delete("морковь"); // удаление по названию
+        if (!deleted.isEmpty()) {
+            System.out.println("список удаленных продуктов:\n" + deleted);
+            System.out.println("удаленных продуктов: " + deleted.size());
+        } else {
+            System.out.println("удаленных продуктов нет");
+        }
         System.out.println();
+
         System.out.println("корзина после удаления по названию");
         productBasket.printBasket();
 

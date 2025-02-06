@@ -10,7 +10,6 @@ public class ProductBasket {
 
     private final List<Product> basket;
     private static int countOfSpecial = 0;
-    private List<Product> deletedProducts;
 
     private static final Random random = new Random();
     private static String[] titles = {"морковь", "картошка", "капуста", "огурец", "помидор", "яблоко", "баклажан", "тунец", "авокадо", "колбаса"};
@@ -76,8 +75,9 @@ public class ProductBasket {
         System.out.println("корзина очищена");
     }
 
+    // удаляет товары по названию
     public List<Product> delete(String name) {
-        deletedProducts = new LinkedList<>();
+        List<Product> deletedProducts = new LinkedList<>();
 
         Iterator<Product> iterator = basket.iterator();
         while (iterator.hasNext()) {
@@ -88,18 +88,6 @@ public class ProductBasket {
             }
         }
         return deletedProducts;
-    }
-
-    public void printDeleted() {
-        for (Product deleted : deletedProducts) {
-            if (!deletedProducts.isEmpty()) {
-                System.out.println(deleted);
-                System.out.println("удаленных продуктов: " + deletedProducts.size());
-            }
-        }
-        if (deletedProducts.isEmpty()) {
-            System.out.println("удаленных продуктов нет");
-        }
     }
 
     public int getCountOfSpecial() {
