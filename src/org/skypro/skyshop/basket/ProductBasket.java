@@ -8,7 +8,7 @@ import java.util.*;
 
 public class ProductBasket {
 
-    private final List<Product> basket;
+    private final Map<String, List<Product>> basket;
     private static int countOfSpecial = 0;
 
     private static final Random random = new Random();
@@ -17,12 +17,14 @@ public class ProductBasket {
 
     // создает массив, данные хранятся в виде товар+цена
     public ProductBasket() {
-        this.basket = new LinkedList<>();
+        this.basket = new HashMap<>();
     }
 
     // добавляет товар в корзину
     public void addProduct(Product product) {
-        this.basket.add(product);
+        List<Product> products = basket.getOrDefault(product.getTitle(), new LinkedList<>());
+        products.add(product);
+        basket.put(product.getTitle(), products);
         System.out.println("добавлен товар \"" + product.getTitle() + "\", цена: " + product.getPrice() + " руб.");
 
     }
@@ -32,10 +34,10 @@ public class ProductBasket {
     public int getBasketPrice() {
         int sum = 0;
 
-        Iterator<Product> iterator = basket.iterator();
-        while (iterator.hasNext()) {
-            Product element = iterator.next();
-            sum += element.getPrice();
+        for (List<Product> products : basket.values()) {
+            for (Product product : products) {
+                sum += product.getPrice();
+            }
         }
 
         return sum;
@@ -44,27 +46,37 @@ public class ProductBasket {
     // печатает содержимое корзины и общую стоимость, если корзина не пуста
     public void printBasket() {
         countOfSpecial = 0;
-        for (Product basket : basket) {
-            if (!this.basket.isEmpty()) {
-                System.out.println(basket);
+
+        if (basket.isEmpty()) {
+            System.out.println("в корзине пусто");
+            return;
+        }
+
+/* чтоб рассортировать
+        for (Map.Entry<String, List<Product>> entry : basket.entrySet()) {
+            System.out.println(entry.getKey() + ": " + entry.getValue());
+        }
+*/
+
+        for (List<Product> products : basket.values()) {
+            for (Product product : products) {
+                System.out.println(product);
             }
         }
-        if (!basket.isEmpty()) {
-            System.out.println("итого: " + getBasketPrice() + " руб.");
-            System.out.println("специальных продуктов: " + getCountOfSpecial());
-        } else {
-            System.out.println("в корзине пусто");
-        }
+
+        System.out.println("итого: " + getBasketPrice() + " руб.");
+        System.out.println("специальных продуктов: " + getCountOfSpecial());
+
     }
 
     // проверяет, есть ли товар с указанным названием в массиве
     public boolean checkProduct(String title) {
         boolean checkProduct = false;
-        for (Product basket : basket) {
-            if (!this.basket.isEmpty() && basket.getTitle().equals(title)) {
-                checkProduct = true;
-            }
+
+        if (!basket.isEmpty() && basket.containsKey(title)) {
+            checkProduct = true;
         }
+
         return checkProduct;
     }
 
@@ -77,25 +89,25 @@ public class ProductBasket {
 
     // удаляет товары по названию
     public List<Product> delete(String name) {
-        List<Product> deletedProducts = new LinkedList<>();
+        List<Product> deletedProducts = basket.remove(name);
 
-        Iterator<Product> iterator = basket.iterator();
-        while (iterator.hasNext()) {
-            Product product = iterator.next();
-            if (product.getTitle().equals(name)) {
-                deletedProducts.add(product);
-                iterator.remove();
-            }
+        if (deletedProducts == null) {
+            deletedProducts = new LinkedList<>();
         }
+
         return deletedProducts;
     }
 
     public int getCountOfSpecial() {
-        for (Product basket : basket) {
-            if (!this.basket.isEmpty() && basket.isSpecial()) {
-                countOfSpecial++;
+
+        for (List<Product> products : basket.values()) {
+            for (Product product : products) {
+                if (product.isSpecial()) {
+                    countOfSpecial++;
+                }
             }
         }
+
         return countOfSpecial;
     }
 
