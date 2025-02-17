@@ -12,6 +12,7 @@ import org.skypro.skyshop.search.Searchable;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 public class App {
 
@@ -77,7 +78,7 @@ public class App {
         System.out.println("search engine");
         System.out.println();
 
-        SearchEngine searchEngine = new SearchEngine(15);
+        SearchEngine searchEngine = new SearchEngine();
         searchEngine.add(product1);
         searchEngine.add(product2);
         searchEngine.add(product3);
@@ -107,6 +108,7 @@ public class App {
 /*
         exceptions
 */
+
         System.out.println();
         System.out.println("exceptions");
         System.out.println();
