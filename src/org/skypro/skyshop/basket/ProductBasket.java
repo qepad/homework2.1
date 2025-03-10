@@ -52,16 +52,8 @@ public class ProductBasket {
             return;
         }
 
-/* чтоб рассортировать
         for (Map.Entry<String, List<Product>> entry : basket.entrySet()) {
             System.out.println(entry.getKey() + ": " + entry.getValue());
-        }
-*/
-
-        for (List<Product> products : basket.values()) {
-            for (Product product : products) {
-                System.out.println(product);
-            }
         }
 
         System.out.println("итого: " + getBasketPrice() + " руб.");

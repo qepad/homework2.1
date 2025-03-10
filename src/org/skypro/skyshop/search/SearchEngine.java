@@ -6,20 +6,18 @@ import java.util.*;
 
 public class SearchEngine {
 
-    private final List<Searchable> searchables;
+    private final Set<Searchable> searchables;
 
 
     public SearchEngine() {
-        this.searchables = new LinkedList<>();
+        this.searchables = new HashSet<>();
     }
 
-    public Map<String, List<Searchable>> search(String query) {
-        Map<String, List<Searchable>> result = new TreeMap<>();
+    public Set<Searchable> search(String query) {
+        Set<Searchable> result = new TreeSet<>(new SearchComparator());
         for (Searchable searchable : searchables) {
             if (searchable.getSearchTerm().contains(query)) {
-                List<Searchable> list = result.getOrDefault(searchable.getSearchTerm(), new LinkedList<>());
-                list.add(searchable);
-                result.put(searchable.getSearchTerm(), list);
+                result.add(searchable);
             }
         }
         return result;
