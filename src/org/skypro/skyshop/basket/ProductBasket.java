@@ -22,9 +22,7 @@ public class ProductBasket {
 
     // добавляет товар в корзину
     public void addProduct(Product product) {
-        List<Product> products = basket.getOrDefault(product.getTitle(), new LinkedList<>());
-        products.add(product);
-        basket.put(product.getTitle(), products);
+        basket.computeIfAbsent(product.getTitle(), k -> new LinkedList<>()).add(product);
         System.out.println("добавлен товар \"" + product.getTitle() + "\", цена: " + product.getPrice() + " руб.");
 
     }
@@ -32,32 +30,26 @@ public class ProductBasket {
 
     // считает стоимость товаров в корзине
     public int getBasketPrice() {
-        int sum = 0;
-
-        for (List<Product> products : basket.values()) {
-            for (Product product : products) {
-                sum += product.getPrice();
-            }
-        }
-
-        return sum;
+        return basket.values().stream()
+                .flatMap(List::stream)
+                .mapToInt(Product::getPrice)
+                .sum();
     }
+
 
     // печатает содержимое корзины и общую стоимость, если корзина не пуста
     public void printBasket() {
-        countOfSpecial = 0;
+        countOfSpecial = getSpecialCount();
 
         if (basket.isEmpty()) {
             System.out.println("в корзине пусто");
             return;
         }
 
-        for (Map.Entry<String, List<Product>> entry : basket.entrySet()) {
-            System.out.println(entry.getKey() + ": " + entry.getValue());
-        }
+        basket.forEach((key, products) -> System.out.println(key + ": " + products));
 
         System.out.println("итого: " + getBasketPrice() + " руб.");
-        System.out.println("специальных продуктов: " + getCountOfSpecial());
+        System.out.println("специальных продуктов: " + countOfSpecial);
 
     }
 
@@ -81,26 +73,15 @@ public class ProductBasket {
 
     // удаляет товары по названию
     public List<Product> delete(String name) {
-        List<Product> deletedProducts = basket.remove(name);
-
-        if (deletedProducts == null) {
-            deletedProducts = new LinkedList<>();
-        }
-
-        return deletedProducts;
+        return Optional.ofNullable(basket.remove(name))
+                .orElse(new LinkedList<>());
     }
 
-    public int getCountOfSpecial() {
-
-        for (List<Product> products : basket.values()) {
-            for (Product product : products) {
-                if (product.isSpecial()) {
-                    countOfSpecial++;
-                }
-            }
-        }
-
-        return countOfSpecial;
+    private int getSpecialCount() {
+        return (int) basket.values().stream()
+                .flatMap(List::stream)
+                .filter(Product::isSpecial)
+                .count();
     }
 
     public String generateTitle() {
